@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    char source_name[100];
+    char dest_name[100];
+    FILE *source_file, *dest_file;
+    int ch; 
+    printf("Enter the source filename: ");
+    scanf("%99s", source_name);
+    printf("Enter the destination filename: ");
+    scanf("%99s", dest_name);
+    source_file = fopen(source_name, "r");
+    if (source_file == NULL) {
+        printf("Error: Could not open source file %s\n", source_name);
+        return 1;
+    }
+    dest_file = fopen(dest_name, "w");
+    if (dest_file == NULL) {
+        printf("Error: Could not create/open destination file %s\n", dest_name);
+        fclose(source_file); 
+        return 1;
+    }
+    while ((ch = fgetc(source_file)) != EOF) {
+        fputc(ch, dest_file);
+    }
+    printf("File contents successfully copied from %s to %s.\n", source_name, dest_name);
+    fclose(source_file);
+    fclose(dest_file);
+    return 0;
+}
